@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship, backref
 
 
 class Usuario(db.Model):
-    __tablename__ = "Usuarios"
+    __tablename__ = "Usuario"
     name = db.Column(db.String(80), nullable=False)  # nombre real
     phone = db.Column(db.String(9), nullable=False)  # 9 digitos
     adress = db.Column(db.String(120), nullable=False)  # direccion tienda fisica
@@ -13,6 +13,14 @@ class Usuario(db.Model):
     username = db.Column(db.String(80), primary_key=True)  # nombre usuario
     email = db.Column(db.String(120), unique=True, nullable=False)  # correo personal
     password = db.Column(db.String(120), nullable=False)  # Encriptar
+    productos = db.relationship('Producto', backref='Usuario')
 
-    def __repr__(self):
-        return '<Usuario {}>'.format(self.username)
+
+class Producto(db.Model):
+    __tablename__ = "Producto"
+    codigo_p = db.Column(db.String(6), primary_key=True)
+    usuario_p = db.Column(db.String(80), db.ForeignKey('Usuario.username'))
+    nombre = db.Column(db.String(40), nullable=False)
+    precio = db.Column(db.Float, nullable=False)
+    marca = db.Column(db.String(30), nullable=False)
+    categoria = db.Column(db.String(30), nullable=False)

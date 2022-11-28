@@ -1,7 +1,7 @@
 from flask import request, jsonify
 from app import db
 from app import models
-from app.models import Usuario
+from app.models import Usuario, Producto
 
 
 def index():
@@ -50,11 +50,34 @@ def login():
 
 
 def registrar_producto():
-    return "registrar producto"
+    nuevo_producto = request.get_json()
+    codigo = nuevo_producto['codigo']
+    usuario = nuevo_producto['usuario']
+    nombre = nuevo_producto['nombre']
+    precio = nuevo_producto['precio']
+    marca = nuevo_producto['marca']
+    categoria = nuevo_producto['categoria']
+    try:
+        newProduct = models.Producto(codigo_p=codigo, usuario_p=usuario, nombre=nombre, precio=precio,
+                                     marca=marca, categoria=categoria)
+        db.session.add(newProduct)
+        db.session.commit()
+        return jsonify({"respuesta": "Producto registrado"})
+    except Exception as err:
+        print(err)
+        return jsonify({"respuesta": "El producto ya existe"})
 
 
 def vender():
-    return "vender"
+    producto_u = request.get_json()
+    usuario_l = producto_u['usuario']
+    productos_l = Producto.query.filter(Producto.usuario_p == usuario_l)
+    productos_d = []
+    for i in productos_l:
+        producto_d = {"codigo": i.codigo_p, "usuario_nombre": i.usuario_p, "nombre": i.nombre,
+                      "precio": i.precio, "marca": i.marca, "tipo": i.categoria}
+        productos_d.append(producto_d)
+    return jsonify(productos_d)
 
 
 def comprar():
