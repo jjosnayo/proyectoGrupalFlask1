@@ -24,3 +24,12 @@ class Producto(db.Model):
     precio = db.Column(db.Float, nullable=False)
     marca = db.Column(db.String(30), nullable=False)
     categoria = db.Column(db.String(30), nullable=False)
+
+
+class Compra(db.Model):
+    __tablename__ = "Compra"
+    codigo_c = db.Column(db.String(6), primary_key=True)
+    codigo_p = db.Column(db.String(6), db.ForeignKey('Producto.codigo_p'))
+    usuario_c = db.Column(db.String(80), db.ForeignKey('Usuario.username'))
+    usuario_v = db.Column(db.String(80), db.ForeignKey('Usuario.username'))
+    # me gustaria agregar una columna fecha que guarde la fecha en tiempo real
