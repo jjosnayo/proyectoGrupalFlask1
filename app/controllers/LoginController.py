@@ -94,12 +94,11 @@ def comprar():
 
 def registrar_compra():
     nueva_compra = request.get_json()
-    codigo_c = nueva_compra['codigo_compra']
     codigo_p = nueva_compra['codigo_producto']
     comprador = nueva_compra['usuario_comprador']
     vendedor = nueva_compra['usuario_vendedor']
     try:
-        newPurchase = models.Compra(codigo_c=codigo_c, codigo_p=codigo_p, usuario_c=comprador, usuario_v=vendedor)
+        newPurchase = models.Compra(codigo_p=codigo_p, usuario_c=comprador, usuario_v=vendedor)
         db.session.add(newPurchase)
         db.session.commit()
         return jsonify({"respuesta": "Compra registrada"})

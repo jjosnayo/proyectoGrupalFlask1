@@ -28,7 +28,7 @@ class Producto(db.Model):
 
 class Compra(db.Model):
     __tablename__ = "Compra"
-    codigo_c = db.Column(db.String(6), primary_key=True)
+    codigo_c = db.Column(db.Integer, primary_key=True)
     codigo_p = db.Column(db.String(6), db.ForeignKey('Producto.codigo_p'))
     usuario_c = db.Column(db.String(80), db.ForeignKey('Usuario.username'))
     usuario_v = db.Column(db.String(80), db.ForeignKey('Usuario.username'))
